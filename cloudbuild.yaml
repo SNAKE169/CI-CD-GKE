@@ -1,12 +1,15 @@
 steps:
 # Git clone
 - name: 'gcr.io/cloud-builders/git'
+  id: git clone
   args: ['clone', 'https://github.com/SNAKE169/CI-CD-GKE.git']
 # Docker Build
 - name: 'gcr.io/cloud-builders/docker'
+  id: Docker build
   args: ['build', '-t', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:${SHORT_SHA}', '.']
 # Docker Push
 - name: 'gcr.io/cloud-builders/docker'
+  id: Docker push
   args: ['push', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:${SHORT_SHA}']
 # replace variable at gke.yaml
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -17,13 +20,6 @@ steps:
   - |
      sed "s/GOOGLE_CLOUD_PROJECT/${_PROJECT_ID}/g" gke.yaml | \
      sed "s/COMMIT_SHA/${SHORT_SHA}/g" > gke.yaml
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: logging
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-     cat gke.yaml
 # deploy container image to GKE
 - name: 'gcr.io/cloud-builders/kubectl'
   id: Deploy
@@ -32,8 +28,8 @@ steps:
   - '-f'
   - 'gke.yaml'
   env: 
-  - '_CLOUDSDK_COMPUTE_ZONE=asia-northeast1-c'
-  - '_CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
 
 substitutions:
   _PROJECT_ID : zinc-anvil-421306
