@@ -28,7 +28,7 @@ steps:
   - '-f'
   - 'gke.yaml'
   env: 
-  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-c'
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1'
   - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
 
 substitutions:
