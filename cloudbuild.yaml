@@ -4,13 +4,13 @@ steps:
   args: ['clone', 'https://github.com/SNAKE169/CI-CD-GKE.git']
 # Docker Build
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
+  args: ['build', '-t', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
 # Docker Push
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
+  args: ['push', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
 
 substitutions:
-  PROJECT_ID : zinc-anvil-421306
+  _PROJECT_ID : zinc-anvil-421306
   _REPO_NAME : gke-image
 
 options:
