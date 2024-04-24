@@ -7,7 +7,7 @@ steps:
   args: ['build', '-t', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
 # Docker Push
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA', '.']
+  args: ['push', 'gcr.io/$_PROJECT_ID/$_REPO_NAME/myimage:$SHORT_SHA']
 
 substitutions:
   _PROJECT_ID : zinc-anvil-421306
