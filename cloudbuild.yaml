@@ -12,3 +12,6 @@ steps:
 substitutions:
   PROJECT_ID : zinc-anvil-421306
   _REPO_NAME : gke-image
+
+options:
+  logging: CLOUD_LOGGING_ONLY
