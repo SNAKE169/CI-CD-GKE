@@ -19,14 +19,21 @@ steps:
   - '-c'
   - |
      sed "s/GOOGLE_CLOUD_PROJECT/${_PROJECT_ID}/g" gke.yaml | \
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > gke.yaml
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > modified_gke.yaml
+# Debug: Print the content of gke.yaml
+- name: 'ubuntu'
+  id: Print gke.yaml
+  entrypoint: /bin/bash
+  args:
+  - '-c'
+  - 'cat modified_gke.yaml'
 # deploy container image to GKE
 - name: 'gcr.io/cloud-builders/kubectl'
   id: Deploy
   args:
   - 'apply'
   - '-f'
-  - 'gke.yaml'
+  - 'modified_gke.yaml'
   env: 
   - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1'
   - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'

@@ -16,7 +16,7 @@ spec:
         app: "hello-app"
     spec:
       containers:
-      - name: "myimage-sha256-1"
+      - name: "hello-app"
         image: "gcr.io/GOOGLE_CLOUD_PROJECT/gke-image/myimage:COMMIT_SHA
 ---
 kind: Service
