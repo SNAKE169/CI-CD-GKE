@@ -1,0 +1,26 @@
+steps:
+- name: gcr.io/k8s-skaffold/skaffold
+  args:
+  - '-c'
+  - |
+    skaffold build --file-output=/workspace/artifacts.json \
+                           --default-repo YOUR_REGION-docker.pkg.dev/$PROJECT_ID/YOUR_APPLICATION/image-YOUR_APPLICATION-$(date '+%Y%m%d%H%M%S') \
+                           --push=true
+  id: skaffold-build
+  entrypoint: bash
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - '-xe'
+  - '-c'
+  - |
+    gcloud config set deploy/region YOUR_REGION
+    gcloud beta deploy releases create "release-pipeline-$(date '+%Y%m%d%H%M%S')" \
+                               --delivery-pipeline=YOUR_APPLICATION \
+                               --description="First Release" \
+                               --build-artifacts=/workspace/artifacts.json \
+                               --annotations="release-id=rel-$(date '+%Y%m%d%H%M%S')"
+  id: create-release
+  entrypoint: sh
+options:
+  logging: CLOUD_LOGGING_ONLY
